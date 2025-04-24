@@ -1,0 +1,14 @@
+{
+  "name": "osha-crawler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@crawlee/core": "^3.0.0",
+    "aws-lambda": "^1.0.7",
+    "cheerio": "^1.0.0",
+    "crawlee": "^3.13.2",
+    "dotenv": "^16.5.0",
+    "mongodb": "^4.5.0",
+    "serverless": "^4.14.1"
+  }
+}
