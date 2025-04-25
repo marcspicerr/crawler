@@ -1,15 +1,28 @@
 const { CheerioCrawler, RequestQueue } = require('crawlee');
 const { MongoClient } = require('mongodb');
-const dotenv = require('dotenv');
-const { connectToDatabase } = require('../shared/db')
+require('dotenv').config();
 
-dotenv.config();
 
-const DB_NAME = 'osha';
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedDb) return cachedDb;
+
+  const client = await MongoClient.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    maxPoolSize: 10,
+    socketTimeoutMS: 5000,
+  });
+
+  cachedDb = client.db();
+  return cachedDb;
+}
+
 const COLLECTION_NAME = 'letters';
 
 async function handler() {
-  const db = connectToDatabase.db(DB_NAME);
+  const db =  await connectToDatabase();
   const collection = db.collection(COLLECTION_NAME);
 
   const requestQueue = await RequestQueue.open();

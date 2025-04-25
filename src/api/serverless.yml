@@ -1,0 +1,27 @@
+service: osha-get-handler
+
+provider:
+  name: aws
+  runtime: nodejs21
+  region: us-east-1
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+
+functions:
+  getLetters:
+    handler: get-letter.handler
+    events:
+      - http:
+          path: letters
+          method: get
+          cors: true
+
+plugins:
+  - serverless-dotenv-plugin
+
+package:
+  individually: true
+  patterns:
+    - get-letter.js
+    - '!node_modules/**'
+    - '!test/**'
